@@ -1,0 +1,6 @@
+
+[SYSTEM] Airlock opening.
+As the airlock opens, you see the red glow of emergency lights enter the bridge of your ship.
+Directly ahead is the cargo bay, where you remember having some cargo from a mission,
+it's contents were not disclosed to you, so that could be a lead. To left of you is the kitchen,
+and to the right is the bedroom, both of which you have unlocked.
