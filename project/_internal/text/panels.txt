@@ -1,5 +1,0 @@
-
-You check the system panels manually and you see the backup generators
-are offline. You look up the locations of the backup generators and see
-that they are in the kitchen and bedroom, but the system shows that their
-doors are locked. You think if you go back to search around the airlock you might find a door panel.
