@@ -1,0 +1,3 @@
+
+[SYSTEM]
+You got a key from the cargo bay? It might go to the weapons locker in the living area.
