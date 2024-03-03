@@ -3,12 +3,17 @@ import climage
 import webbrowser
 import os
 import time
+from pyfiglet import Figlet
 os.system(" ")
 back = "However you can still hear noises from the vents, make your choice quickly.\n"
 
 
 # Calls all the root functions
 def main():
+    print("\x1b[38;2;11;11;96m")
+    letter_print(title(Figlet(font="big")), speed=.02)
+    letter_print("\x1b[0mA full color terminal is needed")
+    letter_print("Please make terminal fullscreen\n")
     letter_print("What color would you like the text to be?")
     letter_print("""Purple, red, maroon red, orange, green, blue,
 dark blue, or deap teal""", end="")
@@ -21,9 +26,8 @@ or you can 'repeat' the text printed when you walked in the room,
 or you can type in the name of the room to go there, or you can
 type 'where am I' to find out what room you're in.
 """)
-    letter_print("Please make terminal fullscreen")
     start(input("Would you like to start (yes/no): ").lower().strip())
-    letter_print(story_text("part1"))
+    letter_print(story_text("start"))
     print(images(0))
     text, user = get_username(input(f"""{color}[AI BOOT]
 [URGENT] AI damaged, please input pilot name to continue boot: """), color)
@@ -37,15 +41,19 @@ def start(ans):
     if "y" in ans or "yes" in ans:
         pass
     else:
-        sys.exit("See you soon.")
+        sys.exit("See you soon.\x1b[0m")
+
+
+def title(font):
+    return font.renderText("Imminent Threat")
 
 
 # prints the letters one at a time, used code found in
 # https://stackoverflow.com/questions/9246076/how-to-print-one-character-at-a-time-on-one-line
-def letter_print(string, end="\n"):
+def letter_print(string, end="\n", speed=.025):
     for char in string:
         print(char, end="", flush=True)
-        time.sleep(.025)
+        time.sleep(speed)
     print(end, end="")
 
 
@@ -76,18 +84,28 @@ def color_choice(colors):
 def story_text(c: str):
     if c == "back":
         return open("text/back.txt").read()
-    elif c == "part1":
+    elif c == "start":
         return open("text/story.txt").read()
     elif c == "bridge":
-        return open("text/story1.txt").read()
+        return open("text/bridge.txt").read()
+    elif c == "bridge2":
+        return open("text/bridge2.txt").read()
+    elif c == "bridge3":
+        return open("text/bridge3.txt").read()
     elif c == "airlock":
         return open("text/airlock.txt").read()
     elif c == "airlock2":
-        return open("text/airlock_2.txt").read()
+        return open("text/airlock2.txt").read()
     elif c == "ai":
         return open("text/ai.txt").read()
+    elif c == "ai2":
+        return open("text/ai2.txt").read()
+    elif c == "ai3":
+        return open("text/ai3.txt").read()
     elif c == "panels":
         return open("text/panels.txt").read()
+    elif c == "panels2":
+        return open("text/panels2.txt").read()
     elif c == "kitchen":
         return open("text/kitchen.txt").read()
     elif c == "bed":
@@ -97,7 +115,7 @@ def story_text(c: str):
     elif c == "cargo":
         return open("text/cargo.txt").read()
     elif c == "final":
-        return open("text/cargo.txt").read()
+        return open("text/final.txt").read()
     elif c == "monster":
         return open("text/monster.txt").read()
     elif c == "monster2":
@@ -118,7 +136,7 @@ def images(n: int, color: str = ""):
 # requires the user name of the player and prints
 # a colored version of text, that's why it's not in a txt file
 def get_username(user: str, c: str = ""):
-    user = user.strip()
+    user = user.strip() or "Pilot"
     return (f"""{c}[BOOTING SYSTEMS]
 Main Power
     \x1b[38;5;196m<OFFLINE>\x1b[0m
@@ -190,7 +208,7 @@ def bridge(progress: str, user, c=""):
         for _ in range(4):
             ans1 = input(f"What do you do {user}? ").lower().strip()
             if "repeat" in ans1:  # reapeats the text printed when walking in
-                letter_print(story_text("bridge"))
+                letter_print(story_text("bridge2"))
             elif "where" in ans1:
                 letter_print("You are in the bridge.\n")
             # takes you to the rooms with same progress
@@ -201,33 +219,34 @@ def bridge(progress: str, user, c=""):
                 letter_print(story_text("airlock2"))
                 return airlock("airlock2", user)
             elif "cargo" in ans1:
-                letter_print("Cargo bay is locked.\n")
+                letter_print("The cargo bay doors are locked, you head back to the bridge")
+                letter_print("You can still hear noises in the vents, make your choice quickly\n")
             elif "kitchen" in ans1:
-                letter_print("You look around the kitchen and see one of the ships backup generators\n")
+                letter_print("[SYSTEM] Kitchen opening.\nYou look around the kitchen and see one of the ships backup generators\n")
                 return kitchen("kitchen", user)
             elif "bedroom" in ans1:
-                letter_print("You look around the bedroom and see one of the ships backup generators\n")
+                letter_print("[SYSTEM] Bedroom opening.\nYou look around the bedroom and see one of the ships backup generators\n")
                 return bedroom("bed", user)
             elif "ai" in ans1:
-                letter_print(story_text("ai2"))  # add AI advise for the progress amount
+                letter_print(story_text("ai"))  # add AI advise for the progress amount
                 letter_print("You can still hear noises from the vents, and they're getting closer.\n")
                 x += 1
             elif "panel" in ans1:
-                letter_print(story_text("panels2"))  # add advise from the system for the progress amount
+                letter_print(story_text("panels"))  # add advise from the system for the progress amount
                 letter_print("You can still hear noises from the vents, and they're getting closer.\n")
                 x += 1
             elif "search" in ans1:
                 # searches the area
                 letter_print("You search the main deck but find nothing.\n")
             else:
-                letter_print("You can hear the Monster get closer.\n")
+                letter_print("You can hear the noises get closer.\n")
                 x += 1
 
     elif progress == "bridge3":
         for _ in range(4):
             ans1 = input(f"What do you do {user}? ").lower().strip()
             if "repeat" in ans1:
-                letter_print(story_text("bridge"))
+                letter_print(story_text("bridge3"))
             elif "where" in ans1:
                 letter_print("You are in the bridge.\n")
             # takes you to rooms with the same progress
@@ -248,19 +267,19 @@ def bridge(progress: str, user, c=""):
                 return cargo("cargo", user)
             elif "ai" in ans1:
                 # get ai advice
-                letter_print(story_text("ai3"))  # add advise for progress
+                letter_print(story_text("ai2"))  # add advise for progress
                 letter_print("You can still hear noises from the vents, and they're getting closer.\n")
                 x += 1
             elif "panel" in ans1:
                 # check other systems
-                letter_print(story_text("panels3"))  # add advise for progress
+                letter_print(story_text("panels2"))  # add advise for progress
                 letter_print("You can still hear noises from the vents, and they're getting closer.\n")
                 x += 1
             elif "search" in ans1:
                 # searches the area
                 letter_print("You search the main deck but find nothing.\n")
             else:
-                letter_print("You can hear the Monster get closer.\n")
+                letter_print("You can hear the noises get closer.\n")
                 x += 1
 
     # This is for after you get the key in the cargo bay
@@ -270,7 +289,7 @@ def bridge(progress: str, user, c=""):
         for _ in range(4):
             ans1 = input(f"What do you do {user}? ").lower().strip()
             if "repeat" in ans1:
-                letter_print(story_text("bridge"))
+                letter_print(story_text("bridge3"))
             elif "where" in ans1:
                 letter_print("You are in the bridge.\n")
             elif "main" in ans1 or "living" in ans1:
@@ -291,19 +310,19 @@ def bridge(progress: str, user, c=""):
                 return kitchen("kitchen2.1", user)
             elif "ai" in ans1:
                 # get ai advice
-                letter_print(story_text("ai3.1"))
+                letter_print(story_text("ai3"))
                 letter_print("You can still hear noises from the vents, and they're getting closer.\n")
                 x += 1
             elif "panel" in ans1:
                 # check other systems
-                letter_print(story_text("panels3.1"))
+                letter_print(story_text("panels3"))
                 letter_print("You can still hear noises from the vents, and they're getting closer.\n")
                 x += 1
             elif "search" in ans1:
                 # searches the area
                 letter_print("You search the main deck but find nothing.\n")
             else:
-                letter_print("You can hear the Monster get closer.\n")
+                letter_print("You can hear the noises get closer.\n")
                 x += 1
     if x == 4:
         letter_print("The Monster ate you alive. Ending 1/3")
@@ -311,7 +330,7 @@ def bridge(progress: str, user, c=""):
         if "yes" in again or "y" in again:
             return main()
         else:
-            sys.exit("Bye, have a great time!")
+            sys.exit("Bye, have a great time!\x1b[0m")
 
 
 # Is the final choices of the game
@@ -319,7 +338,7 @@ def final_choice(gun, user):
     x = 0
     if gun == "gun":
         letter_print(story_text("monster"))
-        while True:
+        for _ in range(4):
             a = input(f"What do you do {user}? ").lower().strip()
             if "shoot" in a:
                 letter_print("You shoot and injure creature, but it doesn't die and it looks angry.")
@@ -340,7 +359,7 @@ You move closer to the corpse and kick it to see if it's truly dead. It is and y
                             if "yes" in again or "y" in again:
                                 return final_choice("gun", user)
                             else:
-                                sys.exit("Bye, have a great time!")
+                                sys.exit("Bye, have a great time!\x1b[0m")
                     else:
                         letter_print("The Monster takes another step towards you")
                         x += 1
@@ -351,7 +370,7 @@ You move closer to the corpse and kick it to see if it's truly dead. It is and y
                     if "yes" in again or "y" in again:
                         return final_choice("gun", user)
                     else:
-                        sys.exit("Bye, have a great time!")
+                        sys.exit("Bye, have a great time!\x1b[0m")
 
             elif "closer" in a:
                 letter_print("As you get closer to the Monster, it steps backwards eyeing the gun at your hip.")
@@ -363,13 +382,13 @@ to kill it with one shot if you choose to shoot it""")
                     letter_print("""You shoot it in the head and it drops dead.
 You move closer to the corpse and kick it to see if it's truly dead. It is and you slowly drag to the airlock and eject it.""")
                     letter_print("You killed the Monster! Ending 3/3")
-                    sys.exit("I hope you enjoyed the game :)")
+                    sys.exit("I hope you enjoyed the game :)\x1b[0m")
                 elif "aid" in b or "kit" in b:
                     letter_print("""You grab the first aid kit and move closer to the Monster to give it medical aid.
 While you bandage and disinfect the wounds, the creature makes noises of pain, but it does bot attack you. After
 fully patching it up it seems to have grown closer to and is no longer threat to you or you ship.""")
                     letter_print("You saved the creature! Ending 2/3")
-                    sys.exit("I hope you enjoyed the game :)")
+                    sys.exit("I hope you enjoyed the game :)\x1b[0m")
                 else:
                     letter_print("That's not an option avaible to you right now.\n")
 
@@ -378,7 +397,7 @@ fully patching it up it seems to have grown closer to and is no longer threat to
 
     else:
         letter_print(story_text("monster2"))
-        while True:
+        for _ in range(4):
             a = input(f"What do you do {user}? ").lower().strip()
             if "wait" in a:
                 letter_print("""You yell at the Monster to grab it's attention.
@@ -395,7 +414,7 @@ It was successfull as it starts lumbering towards you, getting closer to the air
 as it ejects both you and the Monster into space.""")
                         webbrowser.open("https://www.youtube.com/watch?v=X2acP06791I")  # takes you to a youtube song
                         letter_print("The AI has taken over the ship, you are now dead. Ending 4/3")
-                        sys.exit("I hope you enjoyed the game :)")
+                        sys.exit("I hope you enjoyed the game :)\x1b[0m")
                 if x == 3:
                     letter_print("""Just as the beast steps in front of the bridges airlock doors, you hold on to something tightly as
 you press the ejection button launching the Monster and some of the loose materials from the wreckage the monster made in your ship.""")
@@ -403,7 +422,7 @@ you press the ejection button launching the Monster and some of the loose materi
 However your strength fails you as you lose hold of the bar, but just before you get sucked out, the ships AI closes the door,
 saving you as you get to live another day""")
                     letter_print("You killed the Monster! Ending 3/3")
-                    sys.exit("I hope you enjoyed the game :)")
+                    sys.exit("I hope you enjoyed the game :)\x1b[0m")
 
             elif "closer" in a:
                 letter_print("As you get closer to the Monster, it steps backwards eyeing the gun at your hip.")
@@ -415,13 +434,13 @@ However you're close enough to kill it with one stab if you choose to murder it.
                     letter_print("""You jump and stab it direclty in the skull and it drops dead.
 You move closer to the corpse and kick it to see if it's truly dead. It is and you slowly drag to the airlock and eject it.""")
                     letter_print("You killed the Monster! Ending 3/3")
-                    sys.exit("I hope you enjoyed the game :)")
+                    sys.exit("I hope you enjoyed the game :)\x1b[0m")
                 elif "aid" in b or "kit" in b:
                     letter_print("""You grab the first aid kit and move closer to the Monster to give it medical aid.
 While you bandage and disinfect the wounds, the creature makes noises of pain, but it does bot attack you. After
 fully patching it up it seems to have grown closer to and is no longer threat to you or you ship.""")
                     letter_print("You saved the creature! Endning 2/3")
-                    sys.exit("I hope you enjoyed the game :)")
+                    sys.exit("I hope you enjoyed the game :)\x1b[0m")
                 else:
                     letter_print("That's not an option avaible to you right now.\n")
 
@@ -430,8 +449,9 @@ fully patching it up it seems to have grown closer to and is no longer threat to
 
 
 def main_deck(prog: str, user):
+    x = 0
     if prog == "main":
-        while True:
+        for _ in range(4):
             a = input(f"What do you do {user}? ").lower().strip()
             if "search" in a:
                 letter_print("""You search around the room and see the weapons locker
@@ -448,7 +468,7 @@ however you think you left the key in the cargo bay.\n""")
             elif "where" in a:
                 letter_print("You are in the living area.\n")
             elif "bridge" in a:
-                letter_print(story_text("bridge"))
+                letter_print(story_text("bridge3"))
                 return bridge("bridge3", user)
             elif "airlock" in a:
                 letter_print(story_text("airlock2"))
@@ -464,9 +484,11 @@ however you think you left the key in the cargo bay.\n""")
                 return kitchen("kitchen2", user)
             else:
                 letter_print("You decide to wait here to see what happens.\n")
+                letter_print("You can hear the noises get closer.\n")
+                x += 1
 
     elif prog == "main2":
-        while True:
+        for _ in range(4):
             # add the ability to go to every room with same progress
             a = input(f"What do you do {user}? ").lower().strip()
             if "search" in a:
@@ -518,7 +540,7 @@ but your favorite is the laser pistol, """, end="")
             elif "where" in a:
                 letter_print("You are in the living area.\n")
             elif "bridge" in a:
-                letter_print(story_text("bridge"))
+                letter_print(story_text("bridge3"))
                 return bridge("bridge3.1", user)
             elif "airlock" in a:
                 letter_print(story_text("airlock2"))
@@ -534,6 +556,15 @@ but your favorite is the laser pistol, """, end="")
                 return kitchen("kitchen2.1", user)
             else:
                 letter_print("You decide to wait here to see what happens.\n")
+                letter_print("You can hear the noises get closer.\n")
+                x += 1
+    if x == 4:
+        letter_print("The Monster ate you alive. Ending 1/3")
+        again = input("Restart? (yes/no)")
+        if "yes" in again or "y" in again:
+            return main()
+        else:
+            sys.exit("Bye, have a great time!\x1b[0m")
 
 
 def airlock(prog: str, user, c=""):
@@ -588,10 +619,11 @@ def airlock(prog: str, user, c=""):
                 letter_print("The door to the living area is locked,", end="")
                 letter_print(" so you head back to the airlock\n")
             elif "kitchen" in b:
-                letter_print("You look around the kitchen and see one of the ships backup generators.\n")
+                letter_print("[SYSTEM] Kitchen opening.\nYou look around the kitchen and see one of the ships backup generators\n")
                 return kitchen("kitchen", user, c)
             elif "bedroom" in b:
-                letter_print("You look around the bedroom and see one of the ships backup generators\n")
+                letter_print("[SYSTEM] Bedroom opening.\nYou look around the bedroom and see one of the ships backup generators\n")
+
                 return bedroom("bed", user, c)
             elif "cargo" in b:
                 letter_print("The cargo bay is locked, there might be backup generators somwhere.\n")
@@ -610,7 +642,7 @@ def airlock(prog: str, user, c=""):
             elif "where" in b:
                 letter_print("You are in the airlock.\n")
             elif "bridge" in b:
-                letter_print(story_text("bridge"))
+                letter_print(story_text("bridge3"))
                 return bridge("bridge3", user)
             elif "main" in b or "living" in b:
                 letter_print("You got to the living area.\n")
@@ -639,7 +671,7 @@ def airlock(prog: str, user, c=""):
             elif "where" in b:
                 letter_print("You are in the airlock.\n")
             elif "bridge" in b:
-                letter_print(story_text("bridge"))
+                letter_print(story_text("bridge3"))
                 return bridge("bridge3.1", user)
             elif "main" in b or "living" in b:
                 letter_print("You got to the living area.\n")
@@ -659,17 +691,17 @@ def airlock(prog: str, user, c=""):
                 letter_print("You're not sure how to do that.\n")
                 x += 1
     if x == 100:
-        letter_print("Your AI is annoyed by you standing around and shoots you out the airlock. Joke Ending 1/3")
+        letter_print("Your AI is annoyed by you standing around and shoots you out the airlock. Joke Ending 1/2")
         again = input("Restart? (yes/no)")
         if "yes" in again or "y" in again:
             return main()
         else:
-            sys.exit("Bye, have a great time!")
+            sys.exit("Bye, have a great time!\x1b[0m")
 
 
 def door(user, c=""):
     letter_print("You can open the panels and mess with the wires\n")
-    while True:
+    for _ in range(4):
         a = input(f"What do you do {user}? ").lower().strip()
         if "wire" in a or "panel" in a or "open" in a:
             letter_print("You mess with the wires in the door panels and unlock the kitchen and bedroom\n")
@@ -686,8 +718,9 @@ def door(user, c=""):
 
 
 def cargo(prog: str, user):
+    x = 0
     if prog == "cargo":
-        while True:
+        for _ in range(4):
             a = input(f"What do you do {user}? ").lower().strip()
             if "repeat" in a:
                 # repeats the text printed when you walk in the room
@@ -696,7 +729,7 @@ def cargo(prog: str, user):
                 letter_print("You are in the cargo bay.\n")
             elif "search" in a:
                 letter_print("You scower the bay and find the key to the weapons locker, which should be in the living area.\n")
-                while True:
+                for _ in range(4):
                     b = input(f"What do you do {user}? ").lower().strip()
                     if "living" in b:
                         letter_print("You go to the living area.\n")
@@ -705,7 +738,7 @@ def cargo(prog: str, user):
                         letter_print("You're not sure how to do that.\n")
                         break
             elif "bridge" in a:
-                letter_print(story_text("bridge"))
+                letter_print(story_text("bridge3"))
                 return bridge("bridge3", user)
             elif "airlock" in a:
                 # leave area
@@ -719,9 +752,11 @@ def cargo(prog: str, user):
                 return bedroom("bed2", user)
             else:
                 letter_print("You're not sure how to do that.\n")
+                letter_print("You can hear the noises get closer.\n")
+                x += 1
 
     elif prog == "cargo2":
-        while True:
+        for _ in range(4):
             a = input(f"What do you do {user}? ").lower().strip()
             if "repeat" in a:
                 # repeats the text printed when you walked in the room
@@ -731,7 +766,7 @@ def cargo(prog: str, user):
             elif "search" in a:
                 letter_print("You've already found the key.\n")
             elif "bridge" in a:
-                letter_print(story_text("bridge"))
+                letter_print(story_text("bridge3"))
                 return bridge("bridge3.1", user)
             elif "airlock" in a:
                 # leave area
@@ -748,12 +783,22 @@ def cargo(prog: str, user):
                 return main_deck("main2", user)
             else:
                 letter_print("You're not sure how to do that.\n")
+                letter_print("You can hear the noises get closer.\n")
+                x += 1
+    if x == 4:
+        letter_print("The Monster ate you alive. Ending 1/3")
+        again = input("Restart? (yes/no)")
+        if "yes" in again or "y" in again:
+            return main()
+        else:
+            sys.exit("Bye, have a great time!\x1b[0m")
 
 
 def bedroom(prog: str, user, c=""):
+    x = 0
     if prog == "bed":
-        while True:
-            a = input(f"What do you do {user}? ").lower().strip()
+        for _ in range(4):
+            a = input(f"{c}What do you do {user}? ").lower().strip()
             if "repeat" in a:
                 # repeats the text printed when you walked in the room
                 letter_print("You look around the bedroom and see one of the ships backup generators\n")
@@ -782,9 +827,11 @@ def bedroom(prog: str, user, c=""):
                 letter_print("You can't resist your bed and take a quick nap.\n")
             else:
                 letter_print("You're not sure how to do that.\n")
+                letter_print("You can hear the noises get closer.\n")
+                x += 1
 
     elif prog == "bed2":
-        while True:
+        for _ in range(4):
             a = input(f"What do you do {user}? ").lower().strip()
             if "repeat" in a:
                 # repeats the text printed when you walked in the room
@@ -795,7 +842,7 @@ def bedroom(prog: str, user, c=""):
                 letter_print("You've already turned them on\n")
             # leaves the area
             elif "bridge" in a:
-                letter_print(story_text("bridge"))
+                letter_print(story_text("bridge3"))
                 return bridge("bridge3", user)
             elif "main" in a or "living" in a:
                 letter_print("You got to the living area.\n")
@@ -816,9 +863,11 @@ def bedroom(prog: str, user, c=""):
                 letter_print("You can't resist your bed and take a quick nap.\n")
             else:
                 letter_print("You're not sure how to do that.\n")
+                letter_print("You can hear the noises get closer.\n")
+                x += 1
 
     elif prog == "bed2.1":
-        while True:
+        for _ in range(4):
             a = input(f"What do you do {user}? ").lower().strip()
             if "repeat" in a:
                 # repeats the text printed when you walked in the room
@@ -829,7 +878,7 @@ def bedroom(prog: str, user, c=""):
                 letter_print("You've already turned them on\n")
             # leaves the area
             elif "bridge" in a:
-                letter_print(story_text("bridge"))
+                letter_print(story_text("bridge3"))
                 return bridge("bridge3.1", user)
             elif "main" in a or "living" in a:
                 letter_print("You got to the living area.\n")
@@ -849,11 +898,21 @@ def bedroom(prog: str, user, c=""):
                 letter_print("You can't resist your bed and take a quick nap.\n")
             else:
                 letter_print("You're not sure how to do that.\n")
+                letter_print("You can hear the noises get closer.\n")
+                x += 1
+    if x == 4:
+        letter_print("The Monster ate you alive. Ending 1/3")
+        again = input("Restart? (yes/no)")
+        if "yes" in again or "y" in again:
+            return main()
+        else:
+            sys.exit("Bye, have a great time!\x1b[0m")
 
 
 def kitchen(prog: str, user, c=""):
+    x = 0
     if prog == "kitchen":
-        while True:
+        for _ in range(4):
             a = input(f"What do you do {user}? ").lower().strip()
             if "repeat" in a:
                 # repeats the text printed when you walked in the room
@@ -865,7 +924,7 @@ def kitchen(prog: str, user, c=""):
                 return generator(0, user, c)
             # leave the area
             elif "bridge" in a:
-                letter_print(story_text("bridge"))
+                letter_print(story_text("bridge3"))
                 return bridge("bridge2", user, c)
             elif "main" in a or "living" in a:
                 letter_print("The living area door is locked, you head back to the kitchen.\n")
@@ -873,6 +932,8 @@ def kitchen(prog: str, user, c=""):
                 letter_print(story_text("airlock2"))
                 return airlock("airlock2", user, c)
             elif "bedroom" in a:
+                ...
+
                 return bedroom("bed", user, c)
             elif "cargo" in a:
                 letter_print("Cargo is locked.\n")
@@ -888,9 +949,11 @@ and after waiting for a couple minutes you eat your re-heated chili, but...it's 
                 letter_print("You made some delicious eggs. Yum!\n")
             else:
                 letter_print("You're not sure how to do that.\n")
+                letter_print("You can hear the noises get closer.\n")
+                x += 1
 
     elif prog == "kitchen2":
-        while True:
+        for _ in range(4):
             a = input(f"What do you do {user}? ").lower().strip()
             if "repeat" in a:
                 # repeats the text printed when you walked in the room
@@ -901,7 +964,7 @@ and after waiting for a couple minutes you eat your re-heated chili, but...it's 
                 letter_print("You've already turned them on\n")
             # leave the area
             elif "bridge" in a:
-                letter_print(story_text("bridge"))
+                letter_print(story_text("bridge3"))
                 return bridge("bridge3", user)
             elif "main" in a or "living" in a:
                 letter_print("You got to the living area.\n")
@@ -927,9 +990,11 @@ and after waiting for a couple minutes you eat your re-heated chili, but...it's 
                 letter_print("You made a delicious burrito. Yum!\n")
             else:
                 letter_print("You're not sure how to do that.\n")
+                letter_print("You can hear the noises get closer.\n")
+                x += 1
 
     elif prog == "kitchen2.1":
-        while True:
+        for _ in range(4):
             a = input(f"What do you do {user}? ").lower().strip()
             if "repeat" in a:
                 # repeats the text printed when you walked in the room
@@ -940,7 +1005,7 @@ and after waiting for a couple minutes you eat your re-heated chili, but...it's 
                 letter_print("You've already turned them on\n")
             # leave the area
             elif "bridge" in a:
-                letter_print(story_text("bridge"))
+                letter_print(story_text("bridge3"))
                 return bridge("bridge3.1", user)
             elif "main" in a or "living" in a:
                 letter_print("You got to the living area.\n")
@@ -966,9 +1031,18 @@ and after waiting for a couple minutes you eat your re-heated chili, but...it's 
                 letter_print("You made a delicious burrito. Yum!\n")
             else:
                 letter_print("You're not sure how to do that.\n")
+                letter_print("You can hear the noises get closer.\n")
+                x += 1
+    if x == 4:
+        letter_print("The Monster ate you alive. Ending 1/3")
+        again = input("Restart? (yes/no)")
+        if "yes" in again or "y" in again:
+            return main()
+        else:
+            sys.exit("Bye, have a great time!\x1b[0m")
 
 
-def generator(area, user, color=""):
+def generator(area, user, color):
     x = 0
     for _ in range(100):
         a = input(f"What do you do {user}? ").lower().strip()
@@ -988,12 +1062,12 @@ def generator(area, user, color=""):
 You should probably just turn it on\n""")
             x += 1
     if x == 100:
-        letter_print("The backup generator explodes from you're mere existense. Joke Ending 1/2")
+        letter_print("The backup generator explodes from you're mere existense. Joke Ending 2/2")
         again = input("Restart? (yes/no)")
         if "yes" in again or "y" in again:
             return main()
         else:
-            sys.exit("Bye, have a great time!")
+            sys.exit("Bye, have a great time!\x1b[0m")
 
 
 if __name__ == "__main__":
