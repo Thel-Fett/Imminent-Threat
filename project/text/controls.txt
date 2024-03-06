@@ -1,0 +1,5 @@
+HOW TO CONTROL: You type what you want to do in the terminal.
+However you can 'search' areas to be able to unlock new choices,
+or you can 'repeat' the text printed when you walked in the room,
+or you can type in the name of the room to go there, or you can
+type 'where am I' to find out what room you're in.
