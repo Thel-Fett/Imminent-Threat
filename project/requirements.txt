@@ -1,3 +1,4 @@
 climage
 pyfiglet
-webbrowser
+playsound
+pygobject
