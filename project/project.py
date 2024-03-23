@@ -4,6 +4,7 @@ import webbrowser
 import os
 import time
 from pyfiglet import Figlet
+from playsound import playsound
 os.system(" ")
 back = "You decide to come back to the room you came from.\n"
 
@@ -16,15 +17,16 @@ def main():
 Please make terminal fullscreen
 What color would you like the text to be?
 Purple, red, maroon red, orange, green, blue,
-dark blue, deap teal, or none""", end="")
-    color = color_choice(input(": ").lower().strip())
+dark blue, deap teal, or none:""", end="")
+    color = color_choice(input().lower().strip())
     print(color)
     letter_print(story_text("controls"))
-    start(input("Would you like to start (yes/no): ").lower().strip())
+    letter_print("Would you like to start (yes/no): ")
+    start(input().lower().strip())
     letter_print(story_text("start"))
-    print(images(0))
-    text, user = get_username(input(f"""{color}[AI BOOT]
-[URGENT] AI damaged, please input pilot name to continue boot: """), color)
+    # print(images(0))
+    letter_print(f"{color}[AI BOOT]\n[URGENT] AI damaged, please input pilot name to continue boot:")
+    text, user = get_username(input(), color)
     letter_print(text)
     bridge("bridge", user, color)
 
@@ -45,6 +47,7 @@ def title(font):
 # https://stackoverflow.com/questions/9246076/how-to-print-one-character-at-a-time-on-one-line
 def letter_print(string, end="\n", speed=.025):
     for char in string:
+        # playsound("sounds/keystroke.wav") # plays a sound for every letter
         print(char, end="", flush=True)
         time.sleep(speed)
     print(end, end="")
@@ -859,7 +862,7 @@ def kitchen(prog: str, user, c=""):
                     letter_print("""You heat up the chili in your handy dandy microwave,
 and after waiting for a couple minutes you eat your re-heated chili, but...it's cold in the middle\n""")
                 else:
-                    letter_print("You not really that hungry.\n")
+                    letter_print("You're not really that hungry.\n")
             elif "food" in a:
                 letter_print("You made some delicious eggs. Yum!\n")
             else:
@@ -897,7 +900,7 @@ and after waiting for a couple minutes you eat your re-heated chili, but...it's 
                     letter_print("""You heat up the chili in your handy dandy microwave,
 and after waiting for a couple minutes you eat your re-heated chili, but...it's cold in the middle\n""")
                 else:
-                    letter_print("You not really that hungry.\n")
+                    letter_print("You're not really that hungry.\n")
             elif "food" in a:
                 letter_print("You made a delicious burrito. Yum!\n")
             else:
@@ -935,7 +938,7 @@ and after waiting for a couple minutes you eat your re-heated chili, but...it's 
                     letter_print("""You heat up the chili in your handy dandy microwave,
 and after waiting for a couple minutes you eat your re-heated chili, but...it's cold in the middle\n""")
                 else:
-                    letter_print("You not really that hungry.\n")
+                    letter_print("You're not really that hungry.\n")
             elif "food" in a:
                 letter_print("You made a delicious burrito. Yum!\n")
             else:
@@ -957,7 +960,7 @@ def generator(area, user, color):
         a = input(f"What do you do {user}? ").lower().strip()
         if "on" in a:
             letter_print(story_text("generator"))
-            print(images(1))
+            # print(images(1))
             letter_print(color)
             return cargo("cargo", user)
         elif "back" in a:
